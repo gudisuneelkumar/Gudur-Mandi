@@ -1,162 +1,227 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PashuSetu — Livestock Marketplace</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    .card:hover{transform:translateY(-4px);box-shadow:0 10px 25px rgba(0,0,0,.12)}
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>PashuSetu — Livestock Marketplace</title>
+
+<!-- Tailwind -->
+<script src="https://cdn.tailwindcss.com"></script>
+
+<style>
+.card:hover{
+transform:translateY(-4px);
+box-shadow:0 10px 25px rgba(0,0,0,.12)
+}
+
+.animal-img{
+height:220px;
+width:100%;
+object-fit:cover;
+border-radius:12px;
+}
+
+.hero-animals img{
+width:200px;
+height:150px;
+object-fit:cover;
+border-radius:12px;
+box-shadow:0 6px 18px rgba(0,0,0,.25);
+}
+</style>
 </head>
-<body class="bg-gray-50 text-gray-800">
-  <!-- Header -->
-  <header class="bg-green-700 text-white">
-    <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
-      <div class="text-2xl font-bold">🐄 PashuSetu</div>
-      <nav class="space-x-6 text-sm md:text-base">
-        <a href="#buy" class="hover:underline">Buy</a>
-        <a href="#sell" class="hover:underline">Sell</a>
-        <a href="#learn" class="hover:underline">Breeds Guide</a>
-      </nav>
-    </div>
-  </header>
 
-  <!-- Hero -->
-  <section class="bg-gradient-to-r from-green-600 to-emerald-500 text-white">
-    <div class="max-w-6xl mx-auto px-4 py-14 grid md:grid-cols-2 gap-8 items-center">
-      <div>
-        <h1 class="text-4xl md:text-5xl font-extrabold mb-4">India's Trusted Livestock Marketplace</h1>
-        <p class="mb-6 text-lg">Buy & sell cows, buffalo, goats and country chickens directly from farmers. Verified sellers. Fair prices. Safe payments.</p>
-        <a href="#sell" class="bg-white text-green-700 px-6 py-3 rounded-xl font-semibold"><h2>Sell Your Animal</h2>
+<body class="bg-gray-100 text-gray-800">
 
-<form id="sellForm">
-  <input id="sellerName" placeholder="Your Name" required><br><br>
-  <input id="phone" placeholder="Phone Number" required><br><br>
-  <input id="animalType" placeholder="Animal (Cow/Goat/Buffalo)" required><br><br>
-  <input id="price" placeholder="Price ₹" required><br><br>
-  <input type="file" id="photo" accept="image/*" required><br><br>
-  <button type="submit">Post Listing</button>
+<!-- HEADER -->
+<header class="bg-green-700 text-white">
+<div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
+<div class="text-2xl font-bold">🐄 PashuSetu</div>
+<nav class="space-x-6">
+<a href="#buy">Buy</a>
+<a href="#sell">Sell</a>
+<a href="#learn">Breeds Guide</a>
+</nav>
+</div>
+</header>
+
+<!-- HERO -->
+<section class="bg-white">
+<div class="max-w-6xl mx-auto px-4 py-12 grid md:grid-cols-2 gap-10 items-center">
+
+<div>
+<h1 class="text-4xl font-extrabold mb-4">India's Trusted Livestock Marketplace</h1>
+<p class="mb-6 text-lg">
+Buy & sell cows, buffalo, goats and country chickens directly from farmers.
+Verified sellers. Fair prices.
+</p>
+
+<a href="#sell" class="bg-green-700 text-white px-6 py-3 rounded-xl font-semibold">
+Sell Your Animal
+</a>
+</div>
+
+<!-- ANIMAL IMAGES -->
+<div class="hero-animals grid grid-cols-3 gap-4 text-center">
+<div>
+<img src="https://images.unsplash.com/photo-1598514982841-5f6bdfbb43e7" alt="Cow">
+<p class="mt-2 font-semibold">Cow</p>
+</div>
+
+<div>
+<img src="https://images.unsplash.com/photo-1612198188060-c7c2a3b66eae" alt="Goat">
+<p class="mt-2 font-semibold">Goat</p>
+</div>
+
+<div>
+<img src="https://images.unsplash.com/photo-1605849796761-2a78b7c8a9e6" alt="Country Chicken">
+<p class="mt-2 font-semibold">Country Chicken</p>
+</div>
+</div>
+
+</div>
+</section>
+
+<!-- SELL FORM -->
+<section id="sell" class="max-w-3xl mx-auto px-4 py-12">
+<h2 class="text-3xl font-bold mb-6 text-center">Post Your Animal</h2>
+
+<form id="sellForm" class="bg-white p-6 rounded-2xl shadow space-y-4">
+
+<input id="sellerName" class="w-full border p-3 rounded-lg" placeholder="Your Name" required>
+
+<input id="phone" class="w-full border p-3 rounded-lg" placeholder="Phone Number" required>
+
+<input id="animalType" class="w-full border p-3 rounded-lg" placeholder="Animal (Cow/Goat/Buffalo/Chicken)" required>
+
+<input id="price" class="w-full border p-3 rounded-lg" placeholder="Price ₹" required>
+
+<input type="file" id="photo" accept="image/*" required>
+
+<button type="submit" class="bg-green-700 text-white w-full py-3 rounded-xl font-semibold">
+Post Listing
+</button>
+
 </form>
+</section>
 
-<hr>
+<!-- LISTINGS -->
+<section id="buy" class="max-w-6xl mx-auto px-4 py-12">
+<h2 class="text-3xl font-bold mb-6">Available Animals</h2>
+<div id="listings" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+</section>
 
-<h2>Available Animals</h2>
+<!-- BREEDS -->
+<section id="learn" class="max-w-6xl mx-auto px-4 py-12">
+<h2 class="text-3xl font-bold mb-6">Popular Breeds</h2>
 
-  <!-- Listings -->
-  <section id="buy" class="max-w-6xl mx-auto px-4 py-12">
-    <h2 class="text-3xl font-bold mb-6">Available Animals</h2>
-    <div id="listings" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
-  </section>
+<div class="grid md:grid-cols-3 gap-6">
 
-  <!-- Sell Form -->
-  <!-- Learn -->
-  <section id="learn" class="max-w-6xl mx-auto px-4 py-12">
-    <h2 class="text-3xl font-bold mb-6">Popular Breeds</h2>
-    <div class="grid md:grid-cols-3 gap-6">
-      <div class="bg-white p-5 rounded-2xl shadow"> <h3 class="font-bold text-xl">Gir Cow</h3><p>High A2 milk, heat tolerant. Popular in Gujarat & South India.</p></div>
-      <div class="bg-white p-5 rounded-2xl shadow"> <h3 class="font-bold text-xl">HF (Holstein Friesian)</h3><p>High milk yield. Needs good feed and shed management.</p></div>
-      <div class="bg-white p-5 rounded-2xl shadow"> <h3 class="font-bold text-xl">Murrah Buffalo</h3><p>Very high fat milk. Highest demand across India.</p></div>
-    </div>
-  </section>
+<div class="bg-white p-5 rounded-2xl shadow">
+<h3 class="font-bold text-xl">Gir Cow</h3>
+<p>High A2 milk, heat tolerant. Popular in Gujarat & South India.</p>
+</div>
 
-  <!-- Footer -->
-  <footer class="bg-gray-900 text-white mt-10">
-    <div class="max-w-6xl mx-auto px-4 py-8 grid md:grid-cols-2 gap-6">
-      <div>
-        <div class="text-2xl font-bold mb-2">PashuSetu</div>
-        <p>Connecting farmers and buyers across India.</p>
-      </div>
-      <div>
-        <p class="mb-2">Contact (WhatsApp):</p>
-        <a class="bg-green-600 px-4 py-2 rounded-xl inline-block" href="https://wa.me/8500563961">Chat Now</a>
-      </div>
-    </div>
-    <div class="text-center text-gray-400 pb-4 text-sm">© 2026 PashuSetu</div>
-  </footer>
-  <!-- Firebase SDK -->
+<div class="bg-white p-5 rounded-2xl shadow">
+<h3 class="font-bold text-xl">HF Cow</h3>
+<p>Very high milk yield. Needs good feed & shed.</p>
+</div>
+
+<div class="bg-white p-5 rounded-2xl shadow">
+<h3 class="font-bold text-xl">Murrah Buffalo</h3>
+<p>Very high fat milk. Highest demand across India.</p>
+</div>
+
+</div>
+</section>
+
+<!-- FOOTER -->
+<footer class="bg-gray-900 text-white mt-10">
+<div class="max-w-6xl mx-auto px-4 py-8 grid md:grid-cols-2 gap-6">
+
+<div>
+<div class="text-2xl font-bold mb-2">PashuSetu</div>
+<p>Connecting farmers and buyers across India.</p>
+</div>
+
+<div>
+<p class="mb-2">Contact:</p>
+<a class="bg-green-600 px-4 py-2 rounded-xl inline-block" href="https://wa.me/918500563961">
+Chat on WhatsApp
+</a>
+</div>
+
+</div>
+<div class="text-center text-gray-400 pb-4 text-sm">© 2026 PashuSetu</div>
+</footer>
+
+<!-- FIREBASE -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getFirestore, collection, addDoc, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
 
-/* YOUR FIREBASE CONFIG */
 const firebaseConfig = {
-  apiKey: "AIzaSyAY_zjbTFPvW-4uwSIVaQD7n4roVk-EoQg",
-  authDomain: "andhra-mandi.firebaseapp.com",
-  projectId: "andhra-mandi",
-  storageBucket: "andhra-mandi.firebasestorage.app",
-  messagingSenderId: "929304181621",
-  appId: "1:929304181621:web:280644aa55ca14358db13c"
+apiKey: "AIzaSyAY_zjbTFPvW-4uwSIVaQD7n4roVk-EoQg",
+authDomain: "andhra-mandi.firebaseapp.com",
+projectId: "andhra-mandi",
+storageBucket: "andhra-mandi.firebasestorage.app",
+messagingSenderId: "929304181621",
+appId: "1:929304181621:web:280644aa55ca14358db13c"
 };
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const storage = getStorage(app);
 
-/* ---------- FORM SUBMIT ---------- */
-document.getElementById("sellForm")?.addEventListener("submit", async (e) => {
-  e.preventDefault();
+/* POST LISTING */
+document.getElementById("sellForm").addEventListener("submit", async (e) => {
+e.preventDefault();
 
-  const name = document.getElementById("sellerName").value;
-  const phone = document.getElementById("phone").value;
-  const price = document.getElementById("price").value;
-  const animal = document.getElementById("animalType").value;
-  const file = document.getElementById("photo").files[0];
+const name = sellerName.value;
+const phone = phone.value;
+const price = price.value;
+const animal = animalType.value;
+const file = photo.files[0];
 
-  if (!file) {
-    alert("Please upload animal photo");
-    return;
-  }
+const imageRef = ref(storage, "animals/" + Date.now() + file.name);
+await uploadBytes(imageRef, file);
+const imageURL = await getDownloadURL(imageRef);
 
-  const imageRef = ref(storage, "animals/" + Date.now() + "-" + file.name);
-  await uploadBytes(imageRef, file);
-  const imageURL = await getDownloadURL(imageRef);
-
-  await addDoc(collection(db, "listings"), {
-    name,
-    phone,
-    price,
-    animal,
-    imageURL,
-    created: new Date()
-  });
-
-  alert("Animal listed successfully!");
-  location.reload();
+await addDoc(collection(db, "listings"), {
+name, phone, price, animal, imageURL,
+created: new Date()
 });
 
-/* ---------- LOAD LISTINGS ---------- */
-async function loadListings() {
-  const container = document.getElementById("listings");
-  if (!container) return;
+alert("Animal listed successfully!");
+location.reload();
+});
 
-  container.innerHTML = "Loading animals...";
+/* LOAD LISTINGS */
+async function loadListings(){
+const container=document.getElementById("listings");
+container.innerHTML="Loading animals...";
 
-  const q = query(collection(db, "listings"), orderBy("created", "desc"));
-  const snapshot = await getDocs(q);
+const q=query(collection(db,"listings"),orderBy("created","desc"));
+const snapshot=await getDocs(q);
 
-  container.innerHTML = "";
+container.innerHTML="";
 
-  snapshot.forEach((doc) => {
-    const data = doc.data();
-
-    container.innerHTML += `
-      <div class="animal-card">
-        <img src="${data.imageURL}" style="width:100%;height:220px;object-fit:cover;border-radius:10px;">
-        <h3>${data.animal}</h3>
-        <p><b>Price:</b> ₹${data.price}</p>
-        <p><b>Seller:</b> ${data.name}</p>
-        <a href="tel:${data.phone}">📞 Call Seller</a><br>
-        <a href="https://wa.me/91${data.phone}" target="_blank">💬 WhatsApp</a>
-      </div>
-    `;
-  });
+snapshot.forEach(doc=>{
+const d=doc.data();
+container.innerHTML+=`
+<div class="bg-white p-4 rounded-2xl shadow card">
+<img src="${d.imageURL}" class="animal-img">
+<h3 class="text-xl font-bold mt-2">${d.animal}</h3>
+<p class="text-green-700 font-semibold text-lg">₹ ${d.price}</p>
+<p>Seller: ${d.name}</p>
+<a class="text-blue-600 block mt-2" href="tel:${d.phone}">📞 Call Seller</a>
+<a class="text-green-600" href="https://wa.me/91${d.phone}" target="_blank">💬 WhatsApp</a>
+</div>`;
+});
 }
-
 loadListings();
 </script>
+
 </body>
 </html>
-
-
