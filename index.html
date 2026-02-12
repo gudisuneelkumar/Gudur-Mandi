@@ -28,18 +28,21 @@
       <div>
         <h1 class="text-4xl md:text-5xl font-extrabold mb-4">India's Trusted Livestock Marketplace</h1>
         <p class="mb-6 text-lg">Buy & sell cows, buffalo, goats and country chickens directly from farmers. Verified sellers. Fair prices. Safe payments.</p>
-        <a href="#sell" class="bg-white text-green-700 px-6 py-3 rounded-xl font-semibold">Sell Your Animal</a>
-      </div>
-      <div class="bg-white/10 rounded-2xl p-6">
-        <ul class="space-y-2 text-lg">
-          <li>✔ Verified farmer profiles</li>
-          <li>✔ Milk yield & lactation records</li>
-          <li>✔ Vet inspection (coming soon)</li>
-          <li>✔ Transport assistance</li>
-        </ul>
-      </div>
-    </div>
-  </section>
+        <a href="#sell" class="bg-white text-green-700 px-6 py-3 rounded-xl font-semibold"><h2>Sell Your Animal</h2>
+
+<form id="sellForm">
+  <input id="sellerName" placeholder="Your Name" required><br><br>
+  <input id="phone" placeholder="Phone Number" required><br><br>
+  <input id="animalType" placeholder="Animal (Cow/Goat/Buffalo)" required><br><br>
+  <input id="price" placeholder="Price ₹" required><br><br>
+  <input type="file" id="photo" accept="image/*" required><br><br>
+  <button type="submit">Post Listing</button>
+</form>
+
+<hr>
+
+<h2>Available Animals</h2>
+<div id="listings"></div>
 
   <!-- Listings -->
   <section id="buy" class="max-w-6xl mx-auto px-4 py-12">
@@ -135,5 +138,88 @@
 
     render();
   </script>
+  <!-- Firebase SDK -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getFirestore, collection, addDoc, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
+
+/* YOUR FIREBASE CONFIG */
+const firebaseConfig = {
+  apiKey: "AIzaSyAY_zjbTFPvW-4uwSIVaQD7n4roVk-EoQg",
+  authDomain: "andhra-mandi.firebaseapp.com",
+  projectId: "andhra-mandi",
+  storageBucket: "andhra-mandi.firebasestorage.app",
+  messagingSenderId: "929304181621",
+  appId: "1:929304181621:web:280644aa55ca14358db13c"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const storage = getStorage(app);
+
+/* ---------- FORM SUBMIT ---------- */
+document.getElementById("sellForm")?.addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const name = document.getElementById("sellerName").value;
+  const phone = document.getElementById("phone").value;
+  const price = document.getElementById("price").value;
+  const animal = document.getElementById("animalType").value;
+  const file = document.getElementById("photo").files[0];
+
+  if (!file) {
+    alert("Please upload animal photo");
+    return;
+  }
+
+  const imageRef = ref(storage, "animals/" + Date.now() + "-" + file.name);
+  await uploadBytes(imageRef, file);
+  const imageURL = await getDownloadURL(imageRef);
+
+  await addDoc(collection(db, "listings"), {
+    name,
+    phone,
+    price,
+    animal,
+    imageURL,
+    created: new Date()
+  });
+
+  alert("Animal listed successfully!");
+  location.reload();
+});
+
+/* ---------- LOAD LISTINGS ---------- */
+async function loadListings() {
+  const container = document.getElementById("listings");
+  if (!container) return;
+
+  container.innerHTML = "Loading animals...";
+
+  const q = query(collection(db, "listings"), orderBy("created", "desc"));
+  const snapshot = await getDocs(q);
+
+  container.innerHTML = "";
+
+  snapshot.forEach((doc) => {
+    const data = doc.data();
+
+    container.innerHTML += `
+      <div class="animal-card">
+        <img src="${data.imageURL}" style="width:100%;height:220px;object-fit:cover;border-radius:10px;">
+        <h3>${data.animal}</h3>
+        <p><b>Price:</b> ₹${data.price}</p>
+        <p><b>Seller:</b> ${data.name}</p>
+        <a href="tel:${data.phone}">📞 Call Seller</a><br>
+        <a href="https://wa.me/91${data.phone}" target="_blank">💬 WhatsApp</a>
+      </div>
+    `;
+  });
+}
+
+loadListings();
+</script>
 </body>
 </html>
+
