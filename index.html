@@ -175,22 +175,59 @@ const db = getFirestore(app);
 const storage = getStorage(app);
 
 /* POST LISTING */
-document.getElementById("sellForm").addEventListener("submit", async (e) => {
-e.preventDefault();
+ocument.getElementById("sellForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
 
-const name = sellerName.value;
-const phone = phone.value;
-const price = price.value;
-const animal = animalType.value;
-const file = photo.files[0];
+  try {
+    const name = document.getElementById("sellerName").value;
+    const phoneNumber = document.getElementById("phone").value;
+    const price = document.getElementById("price").value;
+    const animal = document.getElementById("animalType").value;
+    const file = document.getElementById("photo").files[0];
+
+    if (!file) {
+      alert("Please select an image");
+      return;
+    }
+
+    const imageRef = ref(storage, "animals/" + Date.now() + file.name);
+    await uploadBytes(imageRef, file);
+    const imageURL = await getDownloadURL(imageRef);
+
+    await addDoc(collection(db, "listings"), {
+      name,
+      phone: phoneNumber,
+      price,
+      animal,
+      imageURL,
+      created: new Date()
+    });
+
+    alert("Animal listed successfully!");
+    location.reload();
+
+  } catch (error) {
+    console.error("Error:", error);
+    alert("Error: " + error.message);
+  }
+});
+const name = document.getElementById("sellerName").value;
+const phoneNumber = document.getElementById("phone").value;
+const price = document.getElementById("price").value;
+const animal = document.getElementById("animalType").value;
+const file = document.getElementById("photo").files[0];
 
 const imageRef = ref(storage, "animals/" + Date.now() + file.name);
 await uploadBytes(imageRef, file);
 const imageURL = await getDownloadURL(imageRef);
 
 await addDoc(collection(db, "listings"), {
-name, phone, price, animal, imageURL,
-created: new Date()
+  name,
+  phone: phoneNumber,
+  price,
+  animal,
+  imageURL,
+  created: new Date()
 });
 
 alert("Animal listed successfully!");
@@ -225,6 +262,7 @@ loadListings();
 
 </body>
 </html>
+
 
 
 
